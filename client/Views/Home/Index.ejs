@@ -1,0 +1,23 @@
+<%- include('../Shared/_Layout-head.ejs') %>
+<div>
+<form method="POST" style="text-align: center;">
+    <textarea name="input" style="width: 800px; height: 300px;"></textarea>
+    <div style="margin: 0 auto;">
+        <input type="submit" value="Generate" style="width: 100px; display: inline-block;" />
+        <input type="color" name="color" style="display: inline-block; width: 100px;" value="#FFFFFF">
+        <input type="number" name="width" style="display: inline-block; width: 100px;" placeholder="Width"> x
+        <input type="number" name="height" style="display: inline-block; width: 100px;" placeholder="Width">
+    </div>
+    
+</form>
+
+<% if(srcObj != null) { %>
+    <div style="text-align: center;">
+        <h3>Result:</h3>
+        <div style="border: 5px dashed black; border-radius: 10px; display: inline-block;">
+            <img src="<%=srcObj.src%>">
+        </div>
+    </div>
+<% } %>
+</div>
+<%- include('../Shared/_Layout-end.ejs') %>

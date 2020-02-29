@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  nginx:
+    restart: always
+    image: 'nginx'
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - '3050:80'
+    expose:
+      - "80"
+    networks:
+      - api
+
+  api:
+    image: 'server_api'
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./server
+    ports:
+      - '5000:5000'
+    expose:
+      - "5000"
+    depends_on:
+      - nginx
+    networks:
+      - api
+
+  client:
+    image: 'client'
+    build:
+      dockerfile: Dockerfile
+      context: ./client
+    depends_on:
+      - api
+    ports:
+      - '5070:5001'
+    networks:
+      - api
+
+networks:
+  api:
+    driver: bridge
