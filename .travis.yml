@@ -7,7 +7,7 @@ after_success:
     - docker build -t feare56/dab-client ./client
     - docker build -t feare56/dab-nginx ./nginx
     - docker build -t feare56/dab-server ./server
-    - echo "$DOCKER_PASSWORD" | docker login - u "$DOCKER_ID" --password-stdin
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
     - docker push feare56/dab-client
     - docker push feare56/dab-nginx
     - docker push feare56/dab-server
