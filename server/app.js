@@ -9,7 +9,7 @@ var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-app.post('/generateimage', (req, res) => {
+app.post('/api/generateimage', (req, res) => {
     ProcessString(req.body.input, req.body.color, req.body.width, req.body.height).then((base64Image) => {
         res.json({src: base64Image})
     }).catch((err) => {
