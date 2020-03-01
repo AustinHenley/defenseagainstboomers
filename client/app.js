@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
     res.render('Home/Index', {srcObj: srcObject});
 });
 
-app.post('/', (req, resp) => {
+app.post('/generateimage', (req, resp) => {
     var requestObject = JSON.stringify({
         input: req.body.input,
         color: req.body.color,
