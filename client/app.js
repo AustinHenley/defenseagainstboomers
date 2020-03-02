@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const http = require('http');
+const axios = require('axios');
 
 var app = express();
 
@@ -31,29 +32,17 @@ app.post('/generateimage', (req, resp) => {
       try{
           var response = {};
           var body = [];
-        var request = new http.ClientRequest({
-            path: "/api/generateimage",
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Content-Length": Buffer.byteLength(requestObject)
-            }
-          }, res => {
-            res.on('data', function(d) {
-                body += d;
-            });
-            res.on('end', function() {
-                response = JSON.parse(body);
-                req.app.set('srcObject', response);
-                resp.redirect('/');
-            });
-            res.on('error', function(err) {
-                console.log(err);
-                resp.redirect('/');
-            });
+          axios.post("/api/generateimage", {
+            input: req.body.input,
+            color: req.body.color,
+            width: req.body.width,
+            height: req.body.height
+          }).then(res => {
+              req.app.set('srcObject', res);
+          }).catch(err => {
+              console.log(err);
           });
-        
-          request.end(requestObject);
+          resp.redirect('/');
     
           requestMessage = "Successfully sent request";
         }
