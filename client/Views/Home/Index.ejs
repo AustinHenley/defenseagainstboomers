@@ -10,7 +10,9 @@
     </div>
     
 </form>
-
+<%if(error != null){%>
+    <p><%=error%></p>
+<%}%>
 <% if(srcObj != null) { %>
     <div style="text-align: center;">
         <h3>Result:</h3>

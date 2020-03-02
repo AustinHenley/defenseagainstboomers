@@ -15,8 +15,9 @@ app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
     var srcObject = res.app.get('srcObject');
+    var err = res.app.get('error')
     res.app.set('srcObject', null);
-    res.render('Home/Index', {srcObj: srcObject});
+    res.render('Home/Index', {srcObj: srcObject, error: err});
 });
 
 app.post('/generateimage', (req, resp) => {
@@ -39,20 +40,19 @@ app.post('/generateimage', (req, resp) => {
             height: req.body.height
           }).then(res => {
               req.app.set('srcObject', res);
-              resp.status(400).send({
-                  response: res
-              });
+          }).catch(err => {
+              req.app.set('error', err);
+              console.log(err);
           });
-          //resp.redirect('/');
+          resp.redirect('/');
     
           requestMessage = "Successfully sent request";
         }
       catch(err){
           console.log(err);
+          req.app.set('error', err);
         requestMessage = "Failed to connect to /api/generateimage";
-        resp.status(400).send({
-            error: err
-        });
+        resp.redirect('/');
       }
     
         console.log(requestMessage);
