@@ -39,18 +39,20 @@ app.post('/generateimage', (req, resp) => {
             height: req.body.height
           }).then(res => {
               req.app.set('srcObject', res);
-              resp.write(res);
-              resp.end();
+              resp.send({
+                  response: res
+              });
           });
-          resp.redirect('/');
+          //resp.redirect('/');
     
           requestMessage = "Successfully sent request";
         }
       catch(err){
           console.log(err);
         requestMessage = "Failed to connect to /api/generateimage";
-        resp.write(err);
-        resp.end();
+        resp.send({
+            error: err
+        });
       }
     
         console.log(requestMessage);
