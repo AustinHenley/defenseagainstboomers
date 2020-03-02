@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const http = require('http');
-const axios = require('axios');
 
 var app = express();
 
@@ -15,9 +14,8 @@ app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
     var srcObject = res.app.get('srcObject');
-    var err = res.app.get('error')
     res.app.set('srcObject', null);
-    res.render('Home/Index', {srcObj: srcObject, error: err});
+    res.render('Home/Index', {srcObj: srcObject});
 });
 
 app.post('/generateimage', (req, resp) => {
@@ -33,24 +31,35 @@ app.post('/generateimage', (req, resp) => {
       try{
           var response = {};
           var body = [];
-          axios.post("/api/generateimage", {
-            input: req.body.input,
-            color: req.body.color,
-            width: req.body.width,
-            height: req.body.height
-          }).then(res => {
-              req.app.set('srcObject', res);
-          }).catch(err => {
-              req.app.set('error', err);
-              console.log(err);
+        var request = new http.ClientRequest({
+            port: 80,
+            path: "/api/generateimage",
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Content-Length": Buffer.byteLength(requestObject)
+            }
+          }, res => {
+            res.on('data', function(d) {
+                body += d;
+            });
+            res.on('end', function() {
+                response = JSON.parse(body);
+                req.app.set('srcObject', response);
+                resp.redirect('/');
+            });
+            res.on('error', function(err) {
+                console.log(err);
+                resp.redirect('/');
+            });
           });
-          resp.redirect('/');
+        
+          request.end(requestObject);
     
           requestMessage = "Successfully sent request";
         }
       catch(err){
           console.log(err);
-          req.app.set('error', err);
         requestMessage = "Failed to connect to /api/generateimage";
         resp.redirect('/');
       }
