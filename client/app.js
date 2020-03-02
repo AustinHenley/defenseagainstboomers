@@ -39,7 +39,7 @@ app.post('/generateimage', (req, resp) => {
             height: req.body.height
           }).then(res => {
               req.app.set('srcObject', res);
-              resp.send({
+              resp.status(400).send({
                   response: res
               });
           });
@@ -50,7 +50,7 @@ app.post('/generateimage', (req, resp) => {
       catch(err){
           console.log(err);
         requestMessage = "Failed to connect to /api/generateimage";
-        resp.send({
+        resp.status(400).send({
             error: err
         });
       }
