@@ -41,10 +41,6 @@ app.post('/generateimage', (req, resp) => {
               req.app.set('srcObject', res);
               resp.write(res);
               resp.end();
-          }).catch(err => {
-              console.log(err);
-              resp.write(err);
-              resp.end()
           });
           resp.redirect('/');
     
