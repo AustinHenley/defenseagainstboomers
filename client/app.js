@@ -32,8 +32,6 @@ app.post('/generateimage', (req, resp) => {
           var response = {};
           var body = [];
         var request = new http.ClientRequest({
-            hostname: "nginx",
-            port: 80,
             path: "/api/generateimage",
             method: "POST",
             headers: {
