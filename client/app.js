@@ -39,9 +39,11 @@ app.post('/generateimage', (req, resp) => {
             height: req.body.height
           }).then(res => {
               req.app.set('srcObject', res);
+              resp.write();
           }).catch(err => {
               console.log(err);
               resp.write(err);
+              resp.end()
           });
           resp.redirect('/');
     
