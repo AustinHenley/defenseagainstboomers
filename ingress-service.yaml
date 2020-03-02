@@ -12,7 +12,7 @@ spec:
                     backend:
                         serviceName: client-service
                         servicePort: 5001
-                -   path: /api
+                -   path: /api/
                     backend:
                         serviceName: api-service
                         servicePort: 5000
