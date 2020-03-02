@@ -38,11 +38,13 @@ app.post('/generateimage', (req, resp) => {
             width: req.body.width,
             height: req.body.height
           }).then(res => {
-              req.app.set('srcObject', res);
+              req.app.set('srcObject', res.data);
+              resp.redirect('/');
           }).catch(err => {
               console.log(err);
+              resp.redirect('/');
           });
-          resp.redirect('/');
+          
           //request.end(requestObject);
     
           requestMessage = "Successfully sent request";
