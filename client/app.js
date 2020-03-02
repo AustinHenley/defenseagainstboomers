@@ -32,7 +32,7 @@ app.post('/generateimage', (req, resp) => {
       try{
           var response = {};
           var body = [];
-          axios.post(req.headers.referer + "api/generateimage", {
+          axios.post("http://defenseagainstboomers.com/api/generateimage", {
             input: req.body.input,
             color: req.body.color,
             width: req.body.width,
